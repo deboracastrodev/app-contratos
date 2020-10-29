@@ -1,0 +1,78 @@
+<template>
+
+<div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold leading-tight text-gray-900">
+                Gestão de Contratos
+            </h1>
+        </div>
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                    <tr>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            ID
+                        </th>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Nome</th>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            E-mail</th>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Documento</th>
+                        <th class="px-6 py-3 bg-gray-50"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tr v-for="contract in contracts" :key="contract.id">
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            {{ contract.id }}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            {{ contract.name }}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            {{ contract.email_contract }}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap">
+                            {{ contract.document }}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                            <router-link :to="{name: 'contract_edit', params: { id: contract.id }}" class="text-indigo-600 hover:text-indigo-900">Editar
+                            </router-link>
+                            <button class="text-indigo-600 hover:text-indigo-900" @click="deletecontract(contract.id)">Excluir</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                contracts: []
+            }
+        },
+        created() {
+            this.axios
+                .get('http://contratos.local/api/contracts')
+                .then(response => {
+                    this.contracts = response.data;
+                });
+        },
+        methods: {
+            deletecontract(id) {
+                this.axios
+                    .delete(`http://contratos.local/api/contract/delete/${id}`)
+                    .then(response => {
+                        let i = this.contracts.map(item => item.id).indexOf(id); // find index of your object
+                        this.contracts.splice(i, 1)
+                    });
+            }
+        }
+    }
+</script>
