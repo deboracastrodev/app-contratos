@@ -1943,58 +1943,6 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     HeaderComponent: _components_layout_HeaderComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     FooterComponent: _components_layout_FooterComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  mounted: function mounted() {
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  beforeDestroy: function beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll);
-  },
-  methods: {
-    handleScroll: function handleScroll(event) {
-      var scrollpos = window.scrollY;
-      var header = document.getElementById("header");
-      var navcontent = document.getElementById("nav-content");
-      var navaction = document.getElementById("navAction");
-      var brandname = document.getElementById("brandname");
-      var toToggle = document.querySelectorAll(".toggleColour");
-      document.addEventListener('scroll', function () {
-        /*Apply classes for slide in bar*/
-        scrollpos = window.scrollY;
-
-        if (scrollpos > 10) {
-          header.classList.add("bg-white");
-          navaction.classList.remove("bg-white");
-          navaction.classList.add("gradient");
-          navaction.classList.remove("text-gray-800");
-          navaction.classList.add("text-white"); //Use to switch toggleColour colours
-
-          for (var i = 0; i < toToggle.length; i++) {
-            toToggle[i].classList.add("text-gray-800");
-            toToggle[i].classList.remove("text-white");
-          }
-
-          header.classList.add("shadow");
-          navcontent.classList.remove("bg-gray-100");
-          navcontent.classList.add("bg-white");
-        } else {
-          header.classList.remove("bg-white");
-          navaction.classList.remove("gradient");
-          navaction.classList.add("bg-white");
-          navaction.classList.remove("text-white");
-          navaction.classList.add("text-gray-800"); //Use to switch toggleColour colours
-
-          for (var i = 0; i < toToggle.length; i++) {
-            toToggle[i].classList.add("text-white");
-            toToggle[i].classList.remove("text-gray-800");
-          }
-
-          header.classList.remove("shadow");
-          navcontent.classList.remove("bg-white");
-          navcontent.classList.add("bg-gray-100");
-        }
-      });
-    }
   }
 });
 
@@ -2096,6 +2044,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2113,7 +2107,7 @@ __webpack_require__.r(__webpack_exports__);
     updateProperty: function updateProperty() {
       var _this2 = this;
 
-      this.axios.post("http://contratos.local/api/property/update/".concat(this.$route.params.id), this.property).then(function (response) {
+      this.axios.put("http://contratos.local/api/property/update/".concat(this.$route.params.id), this.property).then(function (response) {
         _this2.$router.push({
           name: 'property'
         });
@@ -38129,118 +38123,371 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", { staticClass: "text-center" }, [_vm._v("Editar Propriedade")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
+  return _c("div", { staticClass: "md:grid md:grid-cols-3 md:gap-6" }, [
+    _c("div", { staticClass: "md:col-span-1" }, [
+      _c("div", { staticClass: "px-4 sm:px-0" }, [
         _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.updateProperty($event)
-              }
-            }
-          },
-          [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("E-mail do proprietário:")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.property.email_property,
-                    expression: "property.email_property"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.property.email_property },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.property,
-                      "email_property",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("h1", [_vm._v("Endereço da propriedade")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Rua")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.property.street,
-                    expression: "property.street"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.property.street },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.property, "street", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Número")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.property.number,
-                    expression: "property.number"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.property.number },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.property, "number", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-              [_vm._v("Salvar")]
-            )
-          ]
-        )
+          "h3",
+          { staticClass: "text-lg font-medium leading-6 text-gray-900" },
+          [_vm._v("Editar Propriedade")]
+        ),
+        _vm._v(" "),
+        _c("p", { staticClass: "mt-1 text-sm leading-5 text-gray-600" }, [
+          _vm._v(
+            "\n                Esta é a propriedade: #" +
+              _vm._s(_vm.property.id) +
+              "\n            "
+          )
+        ])
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mt-5 md:mt-0 md:col-span-2" }, [
+      _c(
+        "form",
+        {
+          attrs: { method: "POST" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.updateProperty($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "shadow overflow-hidden sm:rounded-md" }, [
+            _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
+              _c("div", { staticClass: "grid grid-cols-6 gap-6" }, [
+                _c("div", { staticClass: "col-span-6 sm:col-span-4" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block text-sm font-medium leading-5 text-gray-700",
+                      attrs: { for: "email_property" }
+                    },
+                    [_vm._v("E-mail do proprietário")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.property.email_property,
+                        expression: "property.email_property"
+                      }
+                    ],
+                    staticClass:
+                      "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                    attrs: { id: "email_property" },
+                    domProps: { value: _vm.property.email_property },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.property,
+                          "email_property",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-span-8" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block text-sm font-medium leading-5 text-gray-700",
+                      attrs: { for: "street" }
+                    },
+                    [_vm._v("Rua")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.property.street,
+                        expression: "property.street"
+                      }
+                    ],
+                    staticClass:
+                      "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                    attrs: { id: "street" },
+                    domProps: { value: _vm.property.street },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.property, "street", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-span-2" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block text-sm font-medium leading-5 text-gray-700",
+                      attrs: { for: "number" }
+                    },
+                    [_vm._v("Nº")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.property.number,
+                        expression: "property.number"
+                      }
+                    ],
+                    staticClass:
+                      "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                    attrs: { id: "number" },
+                    domProps: { value: _vm.property.number },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.property, "number", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-span-6" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block text-sm font-medium leading-5 text-gray-700",
+                      attrs: { for: "complement" }
+                    },
+                    [_vm._v("Complemento")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.property.complement,
+                        expression: "property.complement"
+                      }
+                    ],
+                    staticClass:
+                      "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                    attrs: { id: "complement" },
+                    domProps: { value: _vm.property.complement },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.property,
+                          "complement",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-span-6 sm:col-span-3 lg:col-span-2" },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block text-sm font-medium leading-5 text-gray-700",
+                        attrs: { for: "neighborhood" }
+                      },
+                      [_vm._v("Bairro")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.property.neighborhood,
+                          expression: "property.neighborhood"
+                        }
+                      ],
+                      staticClass:
+                        "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                      attrs: { id: "neighborhood" },
+                      domProps: { value: _vm.property.neighborhood },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.property,
+                            "neighborhood",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-span-6 sm:col-span-6 lg:col-span-2" },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block text-sm font-medium leading-5 text-gray-700",
+                        attrs: { for: "city" }
+                      },
+                      [_vm._v("Cidade")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.property.city,
+                          expression: "property.city"
+                        }
+                      ],
+                      staticClass:
+                        "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                      attrs: { id: "city" },
+                      domProps: { value: _vm.property.city },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.property, "city", $event.target.value)
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-span-6 sm:col-span-3 lg:col-span-2" },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block text-sm font-medium leading-5 text-gray-700",
+                        attrs: { for: "state" }
+                      },
+                      [_vm._v("Estado")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.property.state,
+                          expression: "property.state"
+                        }
+                      ],
+                      staticClass:
+                        "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                      attrs: { id: "state" },
+                      domProps: { value: _vm.property.state },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.property, "state", $event.target.value)
+                        }
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-span-6 sm:col-span-3" }, [
+      _c(
+        "label",
+        {
+          staticClass: "block text-sm font-medium leading-5 text-gray-700",
+          attrs: { for: "status" }
+        },
+        [_vm._v("Status")]
+      ),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          staticClass:
+            "mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+          attrs: { id: "status" }
+        },
+        [
+          _c("option", [_vm._v("Contratada")]),
+          _vm._v(" "),
+          _c("option", [_vm._v("Não contratada")])
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
+      [
+        _c(
+          "button",
+          {
+            staticClass:
+              "py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out"
+          },
+          [_vm._v("\n                        Salvar\n                    ")]
+        )
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 

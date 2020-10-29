@@ -25,7 +25,7 @@ Route::name('propery.')->prefix('property')->group(function () {
 
 
 
-Route::get('contracts', 'PropertyController@index');
+Route::get('contracts', 'ContractController@index');
 
 Route::name('contract.')->prefix('contract')->group(function () {
     Route::name('show')->get('{id}', 'ContractController@show');

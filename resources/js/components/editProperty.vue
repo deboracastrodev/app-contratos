@@ -1,25 +1,71 @@
 <template>
-    <div>
-        <h3 class="text-center">Editar Propriedade</h3>
-        <div class="row">
-            <div class="col-md-6">
-                <form @submit.prevent="updateProperty">
-                    <div class="form-group">
-                        <label>E-mail do proprietário:</label>
-                        <input type="text" class="form-control" v-model="property.email_property">
-                    </div>
-                    <h1>Endereço da propriedade</h1>
-                    <div class="form-group">
-                        <label>Rua</label>
-                        <input type="text" class="form-control" v-model="property.street">
-                    </div>
-                    <div class="form-group">
-                        <label>Número</label>
-                        <input type="text" class="form-control" v-model="property.number">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </form>
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Editar Propriedade</h3>
+                <p class="mt-1 text-sm leading-5 text-gray-600">
+                    Esta é a propriedade: #{{ property.id }}
+                </p>
             </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <form @submit.prevent="updateProperty" method="POST">
+                <div class="shadow overflow-hidden sm:rounded-md">
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-4">
+                            <label for="email_property" class="block text-sm font-medium leading-5 text-gray-700">E-mail do proprietário</label>
+                            <input id="email_property" v-model="property.email_property" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="status" class="block text-sm font-medium leading-5 text-gray-700">Status</label>
+                            <select id="status" class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <option>Contratada</option>
+                            <option>Não contratada</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-8">
+                            <label for="street" class="block text-sm font-medium leading-5 text-gray-700">Rua</label>
+                            <input id="street" v-model="property.street" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        </div>
+
+                        <div class="col-span-2">
+                            <label for="number" class="block text-sm font-medium leading-5 text-gray-700">Nº</label>
+                            <input id="number" v-model="property.number" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        </div>
+
+                        <div class="col-span-6">
+                            <label for="complement" class="block text-sm font-medium leading-5 text-gray-700">Complemento</label>
+                            <input id="complement" v-model="property.complement" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        </div>
+
+
+                        <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                            <label for="neighborhood" class="block text-sm font-medium leading-5 text-gray-700">Bairro</label>
+                            <input id="neighborhood" v-model="property.neighborhood" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                            <label for="city" class="block text-sm font-medium leading-5 text-gray-700">Cidade</label>
+                            <input id="city" v-model="property.city" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                            <label for="state" class="block text-sm font-medium leading-5 text-gray-700">Estado</label>
+                            <input id="state" v-model="property.state" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                        </div>
+                        
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                        <button class="py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>
@@ -42,7 +88,7 @@
         methods: {
             updateProperty() {
                 this.axios
-                    .post(`http://contratos.local/api/property/update/${this.$route.params.id}`, this.property)
+                    .put(`http://contratos.local/api/property/update/${this.$route.params.id}`, this.property)
                     .then((response) => {
                         this.$router.push({name: 'property'});
                     });

@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <h3 class="text-center">Editar Contrato</h3>
-        <div class="row">
-            <div class="col-md-6">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Editar Contrato</h3>
+            <div class="mt-5 md:mt-0 md:col-span-2">
                 <form @submit.prevent="updatecontract">
                     <div class="form-group">
                         <label>Nome:</label>
@@ -12,7 +11,7 @@
                 </form>
             </div>
         </div>
-    </div>
+
 </template>
 
 <script>
