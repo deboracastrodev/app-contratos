@@ -6,6 +6,7 @@ use App\Contract;
 use App\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Requests\ContractRequest;
 
 class ContractController extends Controller
 {
@@ -26,21 +27,9 @@ class ContractController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContractRequest $request)
     {
-        $validators = [
-            'name' => 'required|string',
-            'type_person' => 'required|string',
-            'property_id' => [
-                'required',
-                'integer',
-                'exists:property,id',
-            ],
-            'email_contract' => 'required|email|min:3|max:140',
-            'document' => $request->input('type_person') && $request->input('type_person') == 'F' ? 'required|string|min:11|max:11' : 'required|string|min:14:max:14',
-        ];
-
-        $request->validate($validators);
+        $request->validate();
 
         $contract = new Contract([
             'name' => $request->input('name'),
@@ -59,12 +48,13 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Contract  $contract
+     * @param  integer/string  $id 
      * @return \Illuminate\Http\Response
      */
-    public function show(Contract $contract)
+    public function show($id)
     {
-        //
+        $contract = Contract::find($id);
+        return response()->json($contract);
     }
 
     /**

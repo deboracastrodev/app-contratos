@@ -78,7 +78,8 @@
 export default {
         data() {
             return {
-                property: {}
+                property: {},
+                errors: []
             }
         },
         created() {
@@ -86,7 +87,6 @@ export default {
                 .get(`http://contratos.local/api/property/edit/${this.$route.params.id}`)
                 .then((response) => {
                     this.property = response.data
-                    // console.log(response.data);
                 });
         },
         methods: {
@@ -102,7 +102,7 @@ export default {
                             location.href = '/property';
                         })
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => this.errors = error)
                     .finally(() => this.loading = false)
             }
         }

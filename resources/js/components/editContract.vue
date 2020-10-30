@@ -15,23 +15,23 @@
                         <div class="grid grid-cols-6 gap-6">
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="property_id" class="block text-sm font-medium leading-5 text-gray-700">Propriedade</label>
+                                <label for="property_id" class="block text-sm font-medium leading-5 text-gray-700">Propriedade *</label>
                                 <select id="property_id" required="required" v-model="contract.property_id" class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                                     <option v-for="option in properties" v-bind:value="option.id">{{ option.street }}, {{ option.number}}</option>
                                 </select>
                             </div>
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="name" class="block text-sm font-medium leading-5 text-gray-700">Nome completo</label>
-                                <input id="name" v-model="contract.name" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <label for="name" class="block text-sm font-medium leading-5 text-gray-700">Nome completo *</label>
+                                <input id="name" v-model="contract.name"  required="required" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                             </div>
                             <div class="col-span-6 sm:col-span-4">
-                                <label for="email_contract" class="block text-sm font-medium leading-5 text-gray-700">E-mail</label>
-                                <input id="email_contract" v-model="contract.email_contract" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <label for="email_contract" class="block text-sm font-medium leading-5 text-gray-700">E-mail *</label>
+                                <input id="email_contract" v-model="contract.email_contract"  required="required" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="type_person" class="block text-sm font-medium leading-5 text-gray-700">Tipo pessoa</label>
-                                <select id="status" v-model="contract.type_person" class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <label for="type_person" class="block text-sm font-medium leading-5 text-gray-700">Tipo pessoa *</label>
+                                <select id="status" v-model="contract.type_person"  required="required" class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                                 <option value="F">Física</option>
                                 <option value="J">Jurídica</option>
                                 </select>
@@ -39,7 +39,7 @@
 
                             <div class="col-span-8">
                                 <label for="document" class="block text-sm font-medium leading-5 text-gray-700">{{ contract.type_person == 'F' ? 'CPF' : 'CNPJ' }}</label>
-                                <input id="document" v-model="contract.document" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <input id="document" v-model="contract.document" required="required" class="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                             </div>
                         </div>
                     </div>
@@ -81,11 +81,15 @@
                 this.axios
                     .put(`http://contratos.local/api/contract/update/${this.$route.params.id}`, this.contract)
                     .then(function (response) {
-                        Vue.swal('Sucesso!',response.data, 'success').then(function(){
-                            location.href = '/contract';
-                        })
+                        if (response.errors){
+                            this.errors = response.errors;
+                        }else{
+                            Vue.swal('Sucesso!',response.data, 'success').then(function(){
+                                location.href = '/contract';
+                            })
+                        }
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => console.log(response))
             }
         }
     }

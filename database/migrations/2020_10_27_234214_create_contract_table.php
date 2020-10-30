@@ -21,7 +21,7 @@ class CreateContractTable extends Migration
             $table->string('email_contract');
             $table->string('document');
             $table->uuid('uuid');
-            $table->unsignedBigInteger("property_id");
+            $table->unsignedBigInteger("property_id")->unique();
 
             $table->foreign('property_id')->references('id')->on('property')->onDelete('cascade');
 

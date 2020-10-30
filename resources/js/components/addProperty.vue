@@ -77,7 +77,8 @@
             return {
                 property: {
                     status: 'N'
-                }
+                },
+                errors: []
             }
         },
         methods: {
@@ -90,9 +91,9 @@
                     .post('http://contratos.local/api/property/store', this.property)
                     .then(function (response) {
                         Vue.swal('Sucesso!',response.data, 'success')
-                        this.$router.push({name: 'property'})
+                        location.href = '/property';
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => this.errors = error)
                     .finally(() => this.loading = false)
             }
         }

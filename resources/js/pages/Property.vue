@@ -20,9 +20,6 @@
                     </legend>
                     <tr>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            ID
-                        </th>
-                        <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             E-mail</th>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             Endereço</th>
@@ -34,15 +31,16 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                     <tr v-for="property in properties" :key="property.id">
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            {{ property.id }}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap">
                             {{ property.email_property }}</td>
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            {{ property.street }}</td>
+                            {{ property.street }},  {{ property.number }}, {{ property.complement ? property.complement + ', ' : ''}} {{ property.neighborhood}}
+                        </td>
                         <td class="px-6 py-4 whitespace-no-wrap">
-                            {{ property.status }}</td>
+                            {{ property.status }}
+                        </td>
                         <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                            <router-link :to="{name: 'property_edit', params: { id: property.id }}" class="text-indigo-600 hover:text-indigo-900">Editar
+                            <router-link :to="{name: 'property_edit', params: { id: property.id }}" class="text-indigo-600 hover:text-indigo-900">
+                                Editar
                             </router-link>
                             <button class="text-indigo-600 hover:text-indigo-900" @click="deleteproperty(property.id)">Excluir</button>
                         </td>
