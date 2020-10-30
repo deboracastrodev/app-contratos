@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Contract;
+use App\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ContractController extends Controller
 {
@@ -26,15 +28,32 @@ class ContractController extends Controller
      */
     public function store(Request $request)
     {
+        $validators = [
+            'name' => 'required|string',
+            'type_person' => 'required|string',
+            'property_id' => [
+                'required',
+                'integer',
+                'exists:property,id',
+            ],
+            'email_contract' => 'required|email|min:3|max:140',
+            'document' => $request->input('type_person') && $request->input('type_person') == 'F' ? 'required|string|min:11|max:11' : 'required|string|min:14:max:14',
+        ];
+
+        $request->validate($validators);
+
         $contract = new Contract([
             'name' => $request->input('name'),
-            'name' => $request->input('type_person'),
+            'type_person' => $request->input('type_person'),
             'email_contract' => $request->input('email_contract'),
             'document' => $request->input('document'),
+            'property_id' => $request->input('property_id'),
+            'uuid' => (string) Str::uuid(),
             ]);
-         $contract->save();
- 
-         return response()->json('Contrato cadastrado com sucesso!');
+
+        $contract->save();
+        
+        return response()->json('Contrato cadastrado com sucesso!');
     }
 
     /**
@@ -56,8 +75,10 @@ class ContractController extends Controller
      */
     public function edit($id)
     {
-        $contrac = Contract::find($id);
-        return response()->json($contrac);
+        $contract = Contract::find($id);
+        $properties = Property::all();
+
+        return response()->json(['contract' => $contract, 'properties' =>  $properties]);
     }
 
     /**

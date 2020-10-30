@@ -8,5 +8,20 @@ class Property extends Model
 {
     protected $table = 'property';
 
-    protected $fillable = ['email_property', 'street', 'number', 'complement', 'neighborhood', 'city', 'state', 'status'];
+	protected $casts = [
+		'created_at' => 'datetime',
+		'updated_at' => 'datetime',
+		'deleted_at' => 'datetime',
+	];
+
+    protected $fillable = [
+        'email_property',
+        'street',
+        'number',
+        'complement',
+        'neighborhood',
+        'city',
+        'state',
+        'status'
+    ];
 }

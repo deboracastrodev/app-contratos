@@ -13,6 +13,11 @@
 
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
+                    <legend class="text-rigth">
+                        <button type="button" @click="add()" class="py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-green-600 shadow-sm hover:bg-green-500 focus:outline-none focus:shadow-outline-blue active:bg-green-600 transition duration-150 ease-in-out">
+                            <i class="fa fa-plus"></i> Adicionar
+                        </button>
+                    </legend>
                     <tr>
                         <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             ID
@@ -65,6 +70,9 @@
                 });
         },
         methods: {
+            add(){
+                this.$router.push({name: 'property_add'});
+            },
             deleteproperty(id) {
                 this.axios
                     .delete(`http://contratos.local/api/property/delete/${id}`)

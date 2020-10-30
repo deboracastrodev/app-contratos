@@ -19,12 +19,12 @@ class CreatePropertyTable extends Migration
             $table->softDeletes();
             $table->string('email_property');
             $table->string('street');
-            $table->string('number');
+            $table->string('number')->nullable();
             $table->string('complement')->nullable();
             $table->string('neighborhood');
             $table->string('city');
             $table->string('state');
-            $table->string('status');
+            $table->string('status')->nullable();
         });
     }
 

@@ -8,6 +8,9 @@ import About from './pages/About';
 
 import AddProperty from './components/addProperty.vue';
 import EditProperty from './components/editProperty.vue';
+import AddContract from './components/addContract.vue';
+import EditContract from './components/editContract.vue';
+
 
 export const routes = [
         {
@@ -20,6 +23,16 @@ export const routes = [
             name: 'contract',
             component: Contract,
             title: 'teste'
+        },
+        {
+            path: '/contract/edit/:id',
+            name: 'contract_edit',
+            component: EditContract
+        },
+        {
+            path: '/contract/add',
+            name: 'contract_add',
+            component: AddContract
         },
         {
             path: '/property',

@@ -20,9 +20,9 @@
 
                         <div class="col-span-6 sm:col-span-3">
                             <label for="status" class="block text-sm font-medium leading-5 text-gray-700">Status</label>
-                            <select id="status" class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                            <option>Contratada</option>
-                            <option>Não contratada</option>
+                            <select id="status" v-model="property.status" class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <option value="S">Contratada</option>
+                            <option value="N">Não Contratada</option>
                             </select>
                         </div>
 
@@ -60,7 +60,10 @@
                         </div>
                     </div>
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                        <button class="py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out">
+                        <button type="button" @click="voltar()" class="py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-500 focus:outline-none focus:shadow-outline-blue active:bg-red-600 transition duration-150 ease-in-out">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600 transition duration-150 ease-in-out">
                             Salvar
                         </button>
                     </div>
@@ -71,7 +74,8 @@
 </template>
 
 <script>
-    export default {
+
+export default {
         data() {
             return {
                 property: {}
@@ -81,17 +85,25 @@
             this.axios
                 .get(`http://contratos.local/api/property/edit/${this.$route.params.id}`)
                 .then((response) => {
-                    this.property = response.data;
+                    this.property = response.data
                     // console.log(response.data);
                 });
         },
         methods: {
+            voltar(){
+                this.$router.push({name: 'property'})
+            },
             updateProperty() {
+
                 this.axios
                     .put(`http://contratos.local/api/property/update/${this.$route.params.id}`, this.property)
-                    .then((response) => {
-                        this.$router.push({name: 'property'});
-                    });
+                    .then(function (response) {
+                        Vue.swal('Sucesso!',response.data, 'success').then(function(){
+                            location.href = '/property';
+                        })
+                    })
+                    .catch(error => console.log(error))
+                    .finally(() => this.loading = false)
             }
         }
     }

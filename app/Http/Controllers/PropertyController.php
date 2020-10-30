@@ -25,17 +25,25 @@ class PropertyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-       $property = new Property([
-           'stree' => $request->input('stree'),
-           'number' => $request->input('number'),
-           'complement' => $request->input('complement'),
-           'neighborhood' => $request->input('neighborhood'),
-           'city' => $request->input('city'),
-           'state' => $request->input('state'),
-           'status' => $request->input('status'),
-           'email_contract' => $request->input('email_property')
-           ]);
+    {        
+        $request->validate([
+            'street' => 'required|string',
+            'neighborhood' => 'required|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'email_property' => 'required|string',
+        ]);
+
+        $property = new Property([
+            'street' => $request->input('street'),
+            'number' => $request->input('number'),
+            'complement' => $request->input('complement'),
+            'neighborhood' => $request->input('neighborhood'),
+            'city' => $request->input('city'),
+            'state' => $request->input('state'),
+            'status' => $request->input('status'),
+            'email_property' => $request->input('email_property')
+        ]);
         $property->save();
 
         return response()->json('Propriedade cadastrada com sucesso!');
