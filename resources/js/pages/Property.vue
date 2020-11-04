@@ -19,19 +19,23 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                E-mail</th>
+                            <th @click="sort('email_property')" class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                E-mail <i class="fa fa-sort"></i>
+                            </th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Endereço</th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
+                            <th @click="sort('status')" class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Status <i class="fa fa-sort"></i>
+                            </th>
                             <th class="px-6 py-3 bg-gray-50"></th>
                         </tr>
                     </thead>
+
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr v-for="property in properties" :key="property.id">
+                        <tr v-for="property in sortedProperties" :key="property.id">
                             <td class="px-6 py-4 whitespace-no-wrap">
-                                {{ property.email_property }}</td>
+                                {{ property.email_property }}
+                            </td>
                             <td class="px-6 py-4 whitespace-no-wrap">
                                 {{ property.street }},  {{ property.number }}, {{ property.complement ? property.complement + ', ' : ''}} {{ property.neighborhood}}
                             </td>
@@ -60,12 +64,25 @@
         data() {
             return {
                 properties: [],
-                isLoading: false
+                isLoading: false,
+                currentSort:'email_property',
+                currentSortDir:'asc'
             }
         },
         async created() {
             this.isLoading = true
             await this.getProperties()
+        },
+        computed: {
+            sortedProperties() {
+                return this.properties.sort((a,b) => {
+                    let modifier = 1
+                    if(this.currentSortDir === 'desc') modifier = -1
+                    if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier
+                    if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier
+                    return 0
+                })
+            }
         },
         methods: {
             add(){
@@ -91,6 +108,12 @@
                     })
                     .catch(error => Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error'))
                     .finally(() => this.isLoading = false)
+            },
+            sort(column) {
+                if(column === this.currentSort) {
+                    this.currentSortDir = this.currentSortDir === 'asc' ? 'desc':'asc'
+                }
+                this.currentSort = column
             }
         }
     }

@@ -12,17 +12,20 @@ import VueTheMask from 'vue-the-mask';
 
 import 'epic-spinners/dist/lib/epic-spinners.min.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
-
+ 
 import {routes} from './routes';
 import Loading from "./components/layout/Loading"
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-Vue.use(VueSweetalert2);
-Vue.use(VueTheMask);
+Vue.use(VueSweetalert2); //alerts for resquest response
+Vue.use(VueTheMask); //masks for inputs
 
 Vue.component("loading-overlay", Loading)
 
+/**
+ * Filtro para exibição de documentos (CPF ou CNPJ) com máscara.
+ */
 Vue.filter('documentBr', (documentId) => {
   documentId = typeof documentId != 'string' ? documentId.toString() : documentId;
   if (documentId.length == 14) {

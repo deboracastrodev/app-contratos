@@ -40,6 +40,7 @@ class ContractController extends Controller
 
         $contract->save();
 
+        //change status of the property
         $property = Property::find($request->property_id);
         $property->status = 'S';
         $property->save();
@@ -67,8 +68,7 @@ class ContractController extends Controller
      */
     public function edit($id)
     {
-        $contract = Contract::with('parentable')->find($id);
-
+        $contract = Contract::find($id);
         $properties = Property::all();
 
         return response()->json(['contract' => $contract, 'properties' =>  $properties]);
@@ -85,12 +85,15 @@ class ContractController extends Controller
     {
         $contract = Contract::findOrFail($id);
 
+        //change status of the old property
         $property = $contract->property;
         $property->status = 'N';
         $property->save();
 
+        //save contract's update
         $contract->update($request->all());
 
+        //change status of the current property
         $propertyNew = $contract->property;
         $propertyNew->status = 'S';
         $propertyNew->save();
@@ -108,6 +111,7 @@ class ContractController extends Controller
     {
         $contract = Contract::findOrFail($id);
 
+        //change status of the current proprety before delete the contract
         $property = $contract->property;
         $property->status = 'N';
         $property->save();

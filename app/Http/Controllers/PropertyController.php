@@ -20,6 +20,11 @@ class PropertyController extends Controller
         return array_reverse($properties);
     }
 
+    /**
+     * Display a listing of properties without a contract.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getPropertiesByStatus()
     {
         $properties = Property::where('status', 'N')->get()->toArray();
@@ -88,6 +93,7 @@ class PropertyController extends Controller
     {
         $property = Property::findOrFail($id);
 
+        //case exists a relation with a contratc, remove 
         $contract = Contract::where('property_id', $id)->first();
         if ($contract){
             $contract->delete();

@@ -2225,11 +2225,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       properties: [],
-      isLoading: false
+      isLoading: false,
+      currentSort: 'email_property',
+      currentSortDir: 'asc'
     };
   },
   created: function created() {
@@ -2252,6 +2258,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee);
     }))();
   },
+  computed: {
+    sortedProperties: function sortedProperties() {
+      var _this2 = this;
+
+      return this.properties.sort(function (a, b) {
+        var modifier = 1;
+        if (_this2.currentSortDir === 'desc') modifier = -1;
+        if (a[_this2.currentSort] < b[_this2.currentSort]) return -1 * modifier;
+        if (a[_this2.currentSort] > b[_this2.currentSort]) return 1 * modifier;
+        return 0;
+      });
+    }
+  },
   methods: {
     add: function add() {
       this.$router.push({
@@ -2259,19 +2278,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     getProperties: function getProperties() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isLoading = true;
       this.axios.get('http://contratos.local/api/properties').then(function (response) {
-        _this2.properties = response.data;
+        _this3.properties = response.data;
       })["catch"](function (error) {
         return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
       })["finally"](function () {
-        return _this2.isLoading = false;
+        return _this3.isLoading = false;
       });
     },
     deleteProperty: function deleteProperty(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -2279,12 +2298,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this3.axios["delete"]("http://contratos.local/api/property/delete/".concat(id)).then(function (response) {
-                  Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(_this3.getProperties());
+                return _this4.axios["delete"]("http://contratos.local/api/property/delete/".concat(id)).then(function (response) {
+                  Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(_this4.getProperties());
                 })["catch"](function (error) {
                   return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
                 })["finally"](function () {
-                  return _this3.isLoading = false;
+                  return _this4.isLoading = false;
                 });
 
               case 2:
@@ -2294,6 +2313,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    sort: function sort(column) {
+      if (column === this.currentSort) {
+        this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+      }
+
+      this.currentSort = column;
     }
   }
 });
@@ -52150,8 +52176,11 @@ var staticRenderFns = [
       _c("header", { staticClass: "bg-white shadow" }, [
         _c(
           "div",
-          { staticClass: "max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" },
-          [_c("span", [_vm._v("by Débora Castro")])]
+          {
+            staticClass:
+              "max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-gray-500"
+          },
+          [_c("small", [_vm._v("by Débora Castro")])]
         )
       ])
     ])
@@ -52667,12 +52696,59 @@ var render = function() {
                   "table",
                   { staticClass: "min-w-full divide-y divide-gray-200" },
                   [
-                    _vm._m(1),
+                    _c("thead", [
+                      _c("tr", [
+                        _c(
+                          "th",
+                          {
+                            staticClass:
+                              "px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider",
+                            on: {
+                              click: function($event) {
+                                return _vm.sort("email_property")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v("\n                                E-mail "),
+                            _c("i", { staticClass: "fa fa-sort" })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          {
+                            staticClass:
+                              "px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                          },
+                          [_vm._v("\n                                Endereço")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          {
+                            staticClass:
+                              "px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider",
+                            on: {
+                              click: function($event) {
+                                return _vm.sort("status")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v("\n                                Status "),
+                            _c("i", { staticClass: "fa fa-sort" })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "px-6 py-3 bg-gray-50" })
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c(
                       "tbody",
                       { staticClass: "bg-white divide-y divide-gray-200" },
-                      _vm._l(_vm.properties, function(property) {
+                      _vm._l(_vm.sortedProperties, function(property) {
                         return _c("tr", { key: property.id }, [
                           _c(
                             "td",
@@ -52680,7 +52756,8 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(property.email_property)
+                                  _vm._s(property.email_property) +
+                                  "\n                            "
                               )
                             ]
                           ),
@@ -52794,43 +52871,6 @@ var staticRenderFns = [
         )
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c(
-          "th",
-          {
-            staticClass:
-              "px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
-          },
-          [_vm._v("\n                                E-mail")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass:
-              "px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
-          },
-          [_vm._v("\n                                Endereço")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass:
-              "px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
-          },
-          [_vm._v("\n                                Status")]
-        ),
-        _vm._v(" "),
-        _c("th", { staticClass: "px-6 py-3 bg-gray-50" })
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -70192,9 +70232,15 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_3___default.a, axios__WEBPACK_IMPORTED_MODULE_4___default.a);
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_5__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_the_mask__WEBPACK_IMPORTED_MODULE_6___default.a);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_5__["default"]); //alerts for resquest response
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_the_mask__WEBPACK_IMPORTED_MODULE_6___default.a); //masks for inputs
+
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component("loading-overlay", _components_layout_Loading__WEBPACK_IMPORTED_MODULE_10__["default"]);
+/**
+ * Filtro para exibição de documentos (CPF ou CNPJ) com máscara.
+ */
+
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('documentBr', function (documentId) {
   documentId = typeof documentId != 'string' ? documentId.toString() : documentId;
 
