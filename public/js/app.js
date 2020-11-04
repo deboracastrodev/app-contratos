@@ -2107,8 +2107,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getContracts: function getContracts() {
       var _this = this;
 
+      isLoading: true;
+
       this.axios.get('http://contratos.local/api/contracts').then(function (response) {
         _this.contracts = response.data;
+      })["catch"](function (error) {
+        return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
+      })["finally"](function () {
+        return _this.isLoading = false;
       });
     },
     deleteContract: function deleteContract(id) {
@@ -2376,6 +2382,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2385,7 +2393,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       document: '',
       properties: [],
-      errors: []
+      errors: [],
+      isLoading: false
     };
   },
   created: function created() {
@@ -2406,6 +2415,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var withoutMask = this.document.replace(/[_\-./]/g, "");
       this.contract.document = withoutMask;
+      this.isLoading = true;
       this.axios.post('http://contratos.local/api/contract/store', this.contract).then(function (response) {
         Vue.swal('Sucesso!', response.data, 'success').then(function () {
           location.href = '/contract';
@@ -2417,7 +2427,7 @@ __webpack_require__.r(__webpack_exports__);
           Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
         }
       })["finally"](function () {
-        return _this2.loading = false;
+        return _this2.isLoading = false;
       });
     }
   }
@@ -2634,7 +2644,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       contract: {},
       properties: [],
       document: {},
-      errors: []
+      errors: [],
+      isLoading: false
     };
   },
   created: function created() {
@@ -2676,6 +2687,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       var withoutMask = this.document.replace(/[_\-./]/g, "");
       this.contract.document = withoutMask;
+      this.isLoading = true;
       this.axios.put("http://contratos.local/api/contract/update/".concat(this.$route.params.id), this.contract).then(function (response) {
         if (response.errors) {
           this.errors = response.errors;
@@ -2691,7 +2703,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
         }
       })["finally"](function () {
-        return _this2.loading = false;
+        return _this2.isLoading = false;
       });
     }
   }
@@ -52842,412 +52854,419 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "md:grid md:grid-cols-3 md:gap-6" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "mt-5 md:mt-0 md:col-span-2" }, [
-      _c(
-        "form",
-        {
-          attrs: { method: "POST" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.addContract($event)
+  return _c(
+    "div",
+    { staticClass: "md:grid md:grid-cols-3 md:gap-6" },
+    [
+      _vm.isLoading ? _c("loading-overlay") : _vm._e(),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "mt-5 md:mt-0 md:col-span-2" }, [
+        _c(
+          "form",
+          {
+            attrs: { method: "POST" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.addContract($event)
+              }
             }
-          }
-        },
-        [
-          _c("div", { staticClass: "shadow overflow-hidden sm:rounded-md" }, [
-            _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
-              _c("div", { staticClass: "grid grid-cols-6 gap-6" }, [
-                _c(
-                  "div",
-                  { staticClass: "col-span-8" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "property_id" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                Propriedade * \n                                "
-                        ),
-                        _c(
-                          "router-link",
-                          {
-                            staticClass:
-                              "text-sm font-medium rounded-md text-green-500 hover:text-blue-500 focus:outline-none focus:shadow-outline-blue active:text-blue-600 transition duration-150 ease-in-out",
-                            attrs: {
-                              title: "Adicionar propriedade",
-                              to: { name: "property_add" }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-plus" })]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.contract.property_id,
-                            expression: "contract.property_id"
-                          }
-                        ],
-                        staticClass:
-                          "mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                        attrs: { id: "property_id", required: "required" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.contract,
-                              "property_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.properties, function(option) {
-                        return _c(
-                          "option",
-                          { key: option.id, domProps: { value: option.id } },
-                          [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(option.street) +
-                                ",  " +
-                                _vm._s(option.number) +
-                                ", " +
-                                _vm._s(
-                                  option.complement
-                                    ? option.complement + ", "
-                                    : ""
-                                ) +
-                                " " +
-                                _vm._s(option.neighborhood) +
-                                "\n                                "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _vm._l(_vm.errors.option_id, function(error, index) {
-                      return _c(
-                        "p",
+          },
+          [
+            _c("div", { staticClass: "shadow overflow-hidden sm:rounded-md" }, [
+              _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
+                _c("div", { staticClass: "grid grid-cols-6 gap-6" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-span-8" },
+                    [
+                      _c(
+                        "label",
                         {
-                          key: index,
-                          staticClass: "text-red-500 text-xs italic"
+                          staticClass:
+                            "block text-sm font-medium leading-5 text-gray-700",
+                          attrs: { for: "property_id" }
                         },
-                        [_vm._v(_vm._s(error))]
-                      )
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-span-8" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "name" }
-                      },
-                      [_vm._v("Nome completo * ")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.contract.name,
-                          expression: "contract.name"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { id: "name", required: "required" },
-                      domProps: { value: _vm.contract.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.contract, "name", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm._l(_vm.errors.name, function(error, index) {
-                      return _c(
-                        "p",
-                        {
-                          key: index,
-                          staticClass: "text-red-500 text-xs italic"
-                        },
-                        [_vm._v(_vm._s(error))]
-                      )
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-span-8" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "email_contract" }
-                      },
-                      [_vm._v("E-mail * ")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.contract.email_contract,
-                          expression: "contract.email_contract"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: { type: "email", required: "required" },
-                      domProps: { value: _vm.contract.email_contract },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.contract,
-                            "email_contract",
-                            $event.target.value
+                        [
+                          _vm._v(
+                            "\n                                Propriedade * \n                                "
+                          ),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass:
+                                "text-sm font-medium rounded-md text-green-500 hover:text-blue-500 focus:outline-none focus:shadow-outline-blue active:text-blue-600 transition duration-150 ease-in-out",
+                              attrs: {
+                                title: "Adicionar propriedade",
+                                to: { name: "property_add" }
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-plus" })]
                           )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm._l(_vm.errors.email_contract, function(error, index) {
-                      return _c(
-                        "p",
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
                         {
-                          key: index,
-                          staticClass: "text-red-500 text-xs italic"
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.contract.property_id,
+                              expression: "contract.property_id"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: { id: "property_id", required: "required" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.contract,
+                                "property_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
                         },
-                        [_vm._v(_vm._s(error))]
-                      )
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-span-4" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "type_person" }
-                      },
-                      [_vm._v("Tipo pessoa * ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
+                        _vm._l(_vm.properties, function(option) {
+                          return _c(
+                            "option",
+                            { key: option.id, domProps: { value: option.id } },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(option.street) +
+                                  ",  " +
+                                  _vm._s(option.number) +
+                                  ", " +
+                                  _vm._s(
+                                    option.complement
+                                      ? option.complement + ", "
+                                      : ""
+                                  ) +
+                                  " " +
+                                  _vm._s(option.neighborhood) +
+                                  "\n                                "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.errors.option_id, function(error, index) {
+                        return _c(
+                          "p",
+                          {
+                            key: index,
+                            staticClass: "text-red-500 text-xs italic"
+                          },
+                          [_vm._v(_vm._s(error))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-span-8" },
+                    [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "block text-sm font-medium leading-5 text-gray-700",
+                          attrs: { for: "name" }
+                        },
+                        [_vm._v("Nome completo * ")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
                         directives: [
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.contract.type_person,
-                            expression: "contract.type_person"
+                            value: _vm.contract.name,
+                            expression: "contract.name"
                           }
                         ],
                         staticClass:
-                          "mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                        attrs: { id: "type_person", required: "required" },
+                          "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                        attrs: { id: "name", required: "required" },
+                        domProps: { value: _vm.contract.name },
                         on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.contract, "name", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.errors.name, function(error, index) {
+                        return _c(
+                          "p",
+                          {
+                            key: index,
+                            staticClass: "text-red-500 text-xs italic"
+                          },
+                          [_vm._v(_vm._s(error))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-span-8" },
+                    [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "block text-sm font-medium leading-5 text-gray-700",
+                          attrs: { for: "email_contract" }
+                        },
+                        [_vm._v("E-mail * ")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.contract.email_contract,
+                            expression: "contract.email_contract"
+                          }
+                        ],
+                        staticClass:
+                          "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                        attrs: { type: "email", required: "required" },
+                        domProps: { value: _vm.contract.email_contract },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
                             _vm.$set(
                               _vm.contract,
-                              "type_person",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
+                              "email_contract",
+                              $event.target.value
                             )
                           }
                         }
-                      },
-                      [
-                        _c("option", { attrs: { value: "F" } }, [
-                          _vm._v("Física")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "J" } }, [
-                          _vm._v("Jurídica")
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm._l(_vm.errors.type_person, function(error, index) {
-                      return _c(
-                        "p",
-                        {
-                          key: index,
-                          staticClass: "text-red-500 text-xs italic"
-                        },
-                        [_vm._v(_vm._s(error))]
-                      )
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-span-4" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "block text-sm font-medium leading-5 text-gray-700",
-                        attrs: { for: "document" }
-                      },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm.contract.type_person == "F" ? "CPF" : "CNPJ"
-                          ) + " * "
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.errors.email_contract, function(error, index) {
+                        return _c(
+                          "p",
+                          {
+                            key: index,
+                            staticClass: "text-red-500 text-xs italic"
+                          },
+                          [_vm._v(_vm._s(error))]
                         )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-span-4" },
+                    [
+                      _c(
+                        "label",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.document,
-                          expression: "document"
+                          staticClass:
+                            "block text-sm font-medium leading-5 text-gray-700",
+                          attrs: { for: "type_person" }
                         },
+                        [_vm._v("Tipo pessoa * ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
                         {
-                          name: "mask",
-                          rawName: "v-mask",
-                          value:
-                            _vm.contract.type_person == "F"
-                              ? "###.###.###-##"
-                              : "##.###.###/####-##",
-                          expression:
-                            "contract.type_person =='F' ? '###.###.###-##' : '##.###.###/####-##'"
-                        }
-                      ],
-                      staticClass:
-                        "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-                      attrs: {
-                        id: "document",
-                        required: "required",
-                        masked: "true"
-                      },
-                      domProps: { value: _vm.document },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.contract.type_person,
+                              expression: "contract.type_person"
+                            }
+                          ],
+                          staticClass:
+                            "mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                          attrs: { id: "type_person", required: "required" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.contract,
+                                "type_person",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
                           }
-                          _vm.document = $event.target.value
+                        },
+                        [
+                          _c("option", { attrs: { value: "F" } }, [
+                            _vm._v("Física")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "J" } }, [
+                            _vm._v("Jurídica")
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm._l(_vm.errors.type_person, function(error, index) {
+                        return _c(
+                          "p",
+                          {
+                            key: index,
+                            staticClass: "text-red-500 text-xs italic"
+                          },
+                          [_vm._v(_vm._s(error))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-span-4" },
+                    [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "block text-sm font-medium leading-5 text-gray-700",
+                          attrs: { for: "document" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm.contract.type_person == "F" ? "CPF" : "CNPJ"
+                            ) + " * "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.document,
+                            expression: "document"
+                          },
+                          {
+                            name: "mask",
+                            rawName: "v-mask",
+                            value:
+                              _vm.contract.type_person == "F"
+                                ? "###.###.###-##"
+                                : "##.###.###/####-##",
+                            expression:
+                              "contract.type_person =='F' ? '###.###.###-##' : '##.###.###/####-##'"
+                          }
+                        ],
+                        staticClass:
+                          "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5",
+                        attrs: {
+                          id: "document",
+                          required: "required",
+                          masked: "true"
+                        },
+                        domProps: { value: _vm.document },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.document = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.errors.document, function(error, index) {
+                        return _c(
+                          "p",
+                          {
+                            key: index,
+                            staticClass: "text-red-500 text-xs italic"
+                          },
+                          [_vm._v(_vm._s(error))]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-500 focus:outline-none focus:shadow-outline-blue active:bg-red-600 transition duration-150 ease-in-out",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.voltar()
                         }
                       }
-                    }),
-                    _vm._v(" "),
-                    _vm._l(_vm.errors.document, function(error, index) {
-                      return _c(
-                        "p",
-                        {
-                          key: index,
-                          staticClass: "text-red-500 text-xs italic"
-                        },
-                        [_vm._v(_vm._s(error))]
-                      )
-                    })
-                  ],
-                  2
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
-              [
-                _c(
-                  "button",
-                  {
-                    staticClass:
-                      "py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-500 focus:outline-none focus:shadow-outline-blue active:bg-red-600 transition duration-150 ease-in-out",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.voltar()
-                      }
-                    }
-                  },
-                  [
-                    _c("i", { staticClass: "fa fa-times" }),
-                    _vm._v(" Cancelar\n                    ")
-                  ]
-                ),
-                _vm._v(" "),
-                _vm._m(1)
-              ]
-            )
-          ])
-        ]
-      )
-    ])
-  ])
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-times" }),
+                      _vm._v(" Cancelar\n                    ")
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm._m(1)
+                ]
+              )
+            ])
+          ]
+        )
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

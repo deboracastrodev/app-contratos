@@ -73,11 +73,14 @@
                 this.$router.push({name: 'contract_add'});
             },
             getContracts(){
+                isLoading: true
                 this.axios
                     .get('http://contratos.local/api/contracts')
                     .then(response => {
                         this.contracts = response.data;
-                    });
+                    })
+                    .catch(error => Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error'))
+                    .finally(() => this.isLoading = false)
             },
             async deleteContract(id) {
                 this.isLoading = true;

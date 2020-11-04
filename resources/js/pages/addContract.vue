@@ -1,5 +1,7 @@
 <template>
     <div class="md:grid md:grid-cols-3 md:gap-6">
+        <loading-overlay v-if="isLoading"></loading-overlay>
+
         <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">Adicionar Contrato</h3>
@@ -81,7 +83,8 @@
                 },
                 document: '',
                 properties: [],
-                errors: []
+                errors: [],
+                isLoading: false
             }
         },
         created() {
@@ -99,6 +102,7 @@
                 var withoutMask = this.document.replace(/[_\-./]/g,"")
                 this.contract.document = withoutMask
 
+                this.isLoading = true
                 this.axios
                     .post('http://contratos.local/api/contract/store', this.contract)
                     .then(function (response) {
@@ -113,7 +117,7 @@
                             Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
                         }
                     })
-                    .finally(() => this.loading = false)
+                    .finally(() => this.isLoading = false)
             }
         }
     }

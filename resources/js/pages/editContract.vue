@@ -71,7 +71,8 @@
                 contract: {},
                 properties: [],
                 document: {},
-                errors: []
+                errors: [],
+                isLoading: false
             }
         },
         async created() {
@@ -91,6 +92,8 @@
                 var withoutMask = this.document.replace(/[_\-./]/g,"")
                 this.contract.document = withoutMask
 
+                this.isLoading = true
+                
                 this.axios
                     .put(`http://contratos.local/api/contract/update/${this.$route.params.id}`, this.contract)
                     .then(function (response) {
@@ -109,7 +112,7 @@
                             Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error')
                         }
                     })
-                    .finally(() => this.loading = false)
+                    .finally(() => this.isLoading = false)
             }
         }
     }
