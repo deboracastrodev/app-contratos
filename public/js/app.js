@@ -2096,16 +2096,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   created: function created() {
-    var _this = this;
-
-    this.axios.get('http://contratos.local/api/contracts').then(function (response) {
-      _this.contracts = response.data;
-    });
+    this.getContracts();
   },
   methods: {
     add: function add() {
       this.$router.push({
         name: 'contract_add'
+      });
+    },
+    getContracts: function getContracts() {
+      var _this = this;
+
+      this.axios.get('http://contratos.local/api/contracts').then(function (response) {
+        _this.contracts = response.data;
       });
     },
     deleteContract: function deleteContract(id) {
@@ -2119,11 +2122,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this2.isLoading = true;
                 _context.next = 3;
                 return _this2.axios["delete"]("http://contratos.local/api/contract/delete/".concat(id)).then(function (response) {
-                  Vue.swal('Sucesso!', response.data, 'success').then(function () {
-                    var i = this.contracts.map(function (item) {
-                      return item.id;
-                    }).indexOf(id);
-                    this.contracts.splice(i, 1);
+                  Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(function () {
+                    location.href = '/contract';
                   });
                 })["catch"](function (error) {
                   Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');

@@ -26,7 +26,6 @@ class PropertyRequest extends FormRequest
         return [
             'street' => 'required|string',
             'neighborhood' => 'required|string',
-            'complement' => 'string',
             'city' => 'required|string',
             'state' => 'required|string',
             'email_property' => 'required|email|string',
