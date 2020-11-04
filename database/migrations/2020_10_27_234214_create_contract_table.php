@@ -16,6 +16,7 @@ class CreateContractTable extends Migration
         Schema::create('contract', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->softDeletes();
             $table->string('type_person');
             $table->string('name');
             $table->string('email_contract');

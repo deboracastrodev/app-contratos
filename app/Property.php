@@ -3,15 +3,21 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Property extends Model
 {
-    protected $table = 'property';
+    use SoftDeletes;
 
-	protected $casts = [
+    const CONTRATADA = 'S';
+    const NAO_CONTRATADA = 'N';
+
+    protected $table = 'property';
+    protected $hidden = ["deleted_at"];
+
+	protected $dates = [
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime',
-		'deleted_at' => 'datetime',
 	];
 
     protected $fillable = [
@@ -24,4 +30,9 @@ class Property extends Model
         'state',
         'status'
     ];
+
+    public function contract()
+    {
+        return $this->hasOne('App\Contract');
+    }
 }

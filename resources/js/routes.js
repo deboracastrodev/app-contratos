@@ -6,10 +6,10 @@ import Contract from './pages/Contract';
 import Property from './pages/Property';
 import About from './pages/About';
 
-import AddProperty from './components/addProperty.vue';
-import EditProperty from './components/editProperty.vue';
-import AddContract from './components/addContract.vue';
-import EditContract from './components/editContract.vue';
+import AddProperty from './pages/addProperty.vue';
+import EditProperty from './pages/editProperty.vue';
+import AddContract from './pages/addContract.vue';
+import EditContract from './pages/editContract.vue';
 
 
 export const routes = [

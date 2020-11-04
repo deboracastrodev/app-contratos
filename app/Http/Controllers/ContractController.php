@@ -17,30 +17,32 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::all()->toArray();
-        return array_reverse($contracts);
+        $contracts = Contract::with('property')->get()->toArray();
+        return $contracts;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ContractRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(ContractRequest $request)
     {
-        $request->validate();
-
         $contract = new Contract([
-            'name' => $request->input('name'),
-            'type_person' => $request->input('type_person'),
-            'email_contract' => $request->input('email_contract'),
-            'document' => $request->input('document'),
-            'property_id' => $request->input('property_id'),
+            'name' => $request->name,
+            'type_person' => $request->type_person,
+            'email_contract' => $request->email_contract,
+            'document' => $request->document,
+            'property_id' => $request->property_id,
             'uuid' => (string) Str::uuid(),
             ]);
 
         $contract->save();
+
+        $property = Property::find($request->property_id);
+        $property->status = 'S';
+        $property->save();
         
         return response()->json('Contrato cadastrado com sucesso!');
     }
@@ -65,7 +67,8 @@ class ContractController extends Controller
      */
     public function edit($id)
     {
-        $contract = Contract::find($id);
+        $contract = Contract::with('parentable')->find($id);
+
         $properties = Property::all();
 
         return response()->json(['contract' => $contract, 'properties' =>  $properties]);
@@ -74,14 +77,23 @@ class ContractController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ContractRequest $request
      * @param  integer/string  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ContractRequest $request, $id)
     {
-        $contract = Contract::find($id);
+        $contract = Contract::findOrFail($id);
+
+        $property = $contract->property;
+        $property->status = 'N';
+        $property->save();
+
         $contract->update($request->all());
+
+        $propertyNew = $contract->property;
+        $propertyNew->status = 'S';
+        $propertyNew->save();
 
         return response()->json('Contrato editado com sucesso!');
     }
@@ -94,6 +106,12 @@ class ContractController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        //
+        $contract = Contract::findOrFail($id);
+
+        $property = $contract->property;
+        $property->status = 'N';
+        $property->save();
+
+        $contract->delete();
     }
 }

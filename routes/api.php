@@ -14,9 +14,9 @@ use Illuminate\Http\Request;
 */
 
 Route::get('properties', 'PropertyController@index');
+Route::get('properties-status', 'PropertyController@getPropertiesByStatus');
 
 Route::name('propery.')->prefix('property')->group(function () {
-    Route::name('show')->get('{id}', 'PropertyController@show');
     Route::name('store')->post('/store', 'PropertyController@store');
     Route::name('edit')->get('/edit/{id}', 'PropertyController@edit');
     Route::name('update')->put('/update/{id}', 'PropertyController@update');

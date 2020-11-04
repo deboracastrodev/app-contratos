@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Property;
+use App\Http\Requests\PropertyRequest;
 
 class PropertyController extends Controller
 {
@@ -14,50 +15,39 @@ class PropertyController extends Controller
      */
     public function index()
     {
-       $properties = Property::all()->toArray();
-       return array_reverse($properties);
+        $properties = Property::all()->toArray();
+        return array_reverse($properties);
+    }
+
+    public function getPropertiesByStatus()
+    {
+        $properties = Property::where('status', 'N')->get()->toArray();
+        return array_reverse($properties);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param PropertyRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PropertyRequest $request)
     {        
-        $request->validate([
-            'street' => 'required|string',
-            'neighborhood' => 'required|string',
-            'city' => 'required|string',
-            'state' => 'required|string',
-            'email_property' => 'required|string',
-        ]);
+        $parametros = [
+            'street' => $request->street,
+            'number' => $request->number,
+            'complement' => $request->complement,
+            'neighborhood' => $request->neighborhood,
+            'city' => $request->city,
+            'state' => $request->state,
+            'status' => $request->status,
+            'email_property' => $request->email_property
+        ];
 
-        $property = new Property([
-            'street' => $request->input('street'),
-            'number' => $request->input('number'),
-            'complement' => $request->input('complement'),
-            'neighborhood' => $request->input('neighborhood'),
-            'city' => $request->input('city'),
-            'state' => $request->input('state'),
-            'status' => $request->input('status'),
-            'email_property' => $request->input('email_property')
-        ]);
+        $property = new Property($parametros);
         $property->save();
 
         return response()->json('Propriedade cadastrada com sucesso!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  integer  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -75,13 +65,13 @@ class PropertyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param PropertyRequest $request
      * @param  integer/string  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PropertyRequest $request, $id)
     {
-        $property = Property::find($id);
+        $property = Property::findOrFail($id);
         $property->update($request->all());
 
         return response()->json('Propriedade editada com sucesso!');
@@ -95,5 +85,7 @@ class PropertyController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        //
-    }}
+        $property = Property::findOrFail($id);
+        $property->delete();
+    }
+}

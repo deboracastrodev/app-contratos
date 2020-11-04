@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <img class="h-15 w-15" src="https://loading.io/s/icon/y8lp54.svg" alt="Workflow logo">
+            <img class="h-15 w-15" src="/img/icon.svg" alt="Workflow logo">
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
