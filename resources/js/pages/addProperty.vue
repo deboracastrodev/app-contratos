@@ -92,8 +92,9 @@
                 this.axios
                     .post('http://contratos.local/api/property/store', this.property)
                     .then(function (response) {
-                        Vue.swal('Sucesso!',response.data, 'success')
-                        location.href = '/property';
+                        Vue.swal('Sucesso!',response.data, 'success').then(
+                            location.href = '/property'
+                        )
                     })
                     .catch(error => {
                         if (error.response.data.errors){

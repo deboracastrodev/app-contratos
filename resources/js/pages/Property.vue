@@ -63,26 +63,31 @@
                 isLoading: false
             }
         },
-        async mounted() {
+        async created() {
             this.isLoading = true
-            await this.axios
-                    .get('http://contratos.local/api/properties')
-                    .then(response => {
-                        this.properties = response.data
-                    })
-                    .catch(error => Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error'))
-                    .finally(() => this.isLoading = false)
+            await this.getProperties()
         },
         methods: {
             add(){
                 this.$router.push({name: 'property_add'});
             },
-            deleteProperty(id) {
+            getProperties(){
+                this.isLoading = true
                 this.axios
+                        .get('http://contratos.local/api/properties')
+                        .then(response => {
+                            this.properties = response.data
+                        })
+                        .catch(error => Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error'))
+                        .finally(() => this.isLoading = false)
+            },
+            async deleteProperty(id) {
+                await this.axios
                     .delete(`http://contratos.local/api/property/delete/${id}`)
                     .then(response => {
-                        let i = this.properties.map(item => item.id).indexOf(id);
-                        this.properties.splice(i, 1)
+                        Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(
+                            this.getProperties()
+                        )
                     })
                     .catch(error => Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error'))
                     .finally(() => this.isLoading = false)

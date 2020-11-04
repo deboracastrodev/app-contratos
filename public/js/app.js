@@ -2226,7 +2226,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isLoading: false
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -2236,13 +2236,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _this.isLoading = true;
               _context.next = 3;
-              return _this.axios.get('http://contratos.local/api/properties').then(function (response) {
-                _this.properties = response.data;
-              })["catch"](function (error) {
-                return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
-              })["finally"](function () {
-                return _this.isLoading = false;
-              });
+              return _this.getProperties();
 
             case 3:
             case "end":
@@ -2258,20 +2252,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: 'property_add'
       });
     },
-    deleteProperty: function deleteProperty(id) {
+    getProperties: function getProperties() {
       var _this2 = this;
 
-      this.axios["delete"]("http://contratos.local/api/property/delete/".concat(id)).then(function (response) {
-        var i = _this2.properties.map(function (item) {
-          return item.id;
-        }).indexOf(id);
-
-        _this2.properties.splice(i, 1);
+      this.isLoading = true;
+      this.axios.get('http://contratos.local/api/properties').then(function (response) {
+        _this2.properties = response.data;
       })["catch"](function (error) {
         return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
       })["finally"](function () {
         return _this2.isLoading = false;
       });
+    },
+    deleteProperty: function deleteProperty(id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this3.axios["delete"]("http://contratos.local/api/property/delete/".concat(id)).then(function (response) {
+                  Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(_this3.getProperties());
+                })["catch"](function (error) {
+                  return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
+                })["finally"](function () {
+                  return _this3.isLoading = false;
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   }
 });
@@ -2513,8 +2529,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.isLoading = true;
       this.axios.post('http://contratos.local/api/property/store', this.property).then(function (response) {
-        Vue.swal('Sucesso!', response.data, 'success');
-        location.href = '/property';
+        Vue.swal('Sucesso!', response.data, 'success').then(location.href = '/property');
       })["catch"](function (error) {
         if (error.response.data.errors) {
           _this.errors = error.response.data.errors;
@@ -52279,9 +52294,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("About")])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("p", [
+        _vm._v("Projeto desenvolvido para gestão de contratos e propriedades.")
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("p", [_vm._v("Finalizado em 03/11/2020, por Débora Castro")])
+    ])
+  }
+]
 render._withStripped = true
 
 

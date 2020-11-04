@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contract;
 use Illuminate\Http\Request;
 use App\Property;
 use App\Http\Requests\PropertyRequest;
@@ -86,6 +87,11 @@ class PropertyController extends Controller
     public function destroy(Request $request, $id)
     {
         $property = Property::findOrFail($id);
+
+        $contract = Contract::where('property_id', $id)->first();
+        if ($contract){
+            $contract->delete();
+        }
         $property->delete();
     }
 }
