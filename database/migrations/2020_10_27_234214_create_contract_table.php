@@ -20,7 +20,7 @@ class CreateContractTable extends Migration
             $table->string('name');
             $table->string('email_contract');
             $table->string('document');
-            $table->uuid('uuid');
+            $table->uuid('uuid')->nullable();
             $table->unsignedBigInteger("property_id")->unique();
 
             $table->foreign('property_id')->references('id')->on('property')->onDelete('cascade');

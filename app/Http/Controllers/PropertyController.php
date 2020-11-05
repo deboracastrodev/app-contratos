@@ -89,7 +89,7 @@ class PropertyController extends Controller
      * @param  integer/string  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $property = Property::findOrFail($id);
 
