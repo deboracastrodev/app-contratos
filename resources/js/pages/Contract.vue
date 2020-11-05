@@ -75,7 +75,7 @@
             getContracts(){
                 isLoading: true
                 this.axios
-                    .get('http://contratos.local/api/contracts')
+                    .get('/api/contracts')
                     .then(response => {
                         this.contracts = response.data;
                     })
@@ -85,7 +85,7 @@
             async deleteContract(id) {
                 this.isLoading = true;
                 await this.axios
-                    .delete(`http://contratos.local/api/contract/delete/${id}`)
+                    .delete(`/api/contract/delete/${id}`)
                     .then(response => {
                         Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(function(){
                             location.href = '/contract'

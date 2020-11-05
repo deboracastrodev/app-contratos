@@ -91,7 +91,7 @@
             getProperties(){
                 this.isLoading = true
                 this.axios
-                        .get('http://contratos.local/api/properties')
+                        .get('/api/properties')
                         .then(response => {
                             this.properties = response.data
                         })
@@ -100,7 +100,7 @@
             },
             async deleteProperty(id) {
                 await this.axios
-                    .delete(`http://contratos.local/api/property/delete/${id}`)
+                    .delete(`/api/property/delete/${id}`)
                     .then(response => {
                         Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(
                             this.getProperties()

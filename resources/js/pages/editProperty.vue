@@ -86,7 +86,7 @@ export default {
         },
         created() {
             this.axios
-                .get(`http://contratos.local/api/property/edit/${this.$route.params.id}`)
+                .get(`/api/property/edit/${this.$route.params.id}`)
                 .then((response) => {
                     this.property = response.data
                 });
@@ -98,7 +98,7 @@ export default {
             updateProperty() {
                 this.isLoading = true
                 this.axios
-                    .put(`http://contratos.local/api/property/update/${this.$route.params.id}`, this.property)
+                    .put(`/api/property/update/${this.$route.params.id}`, this.property)
                     .then(function (response) {
                         Vue.swal('Sucesso!',response.data, 'success').then(function(){
                             location.href = '/property';

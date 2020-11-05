@@ -89,7 +89,7 @@
         },
         created() {
             this.axios
-                .get('http://contratos.local/api/properties-status')
+                .get('/api/properties-status')
                 .then(response => {
                     this.properties = response.data;
                 });
@@ -104,7 +104,7 @@
 
                 this.isLoading = true
                 this.axios
-                    .post('http://contratos.local/api/contract/store', this.contract)
+                    .post('/api/contract/store', this.contract)
                     .then(function (response) {
                         Vue.swal('Sucesso!',response.data, 'success').then(function(){
                             location.href = '/contract'

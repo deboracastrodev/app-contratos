@@ -2109,7 +2109,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       isLoading: true;
 
-      this.axios.get('http://contratos.local/api/contracts').then(function (response) {
+      this.axios.get('/api/contracts').then(function (response) {
         _this.contracts = response.data;
       })["catch"](function (error) {
         return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
@@ -2127,7 +2127,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this2.isLoading = true;
                 _context.next = 3;
-                return _this2.axios["delete"]("http://contratos.local/api/contract/delete/".concat(id)).then(function (response) {
+                return _this2.axios["delete"]("/api/contract/delete/".concat(id)).then(function (response) {
                   Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(function () {
                     location.href = '/contract';
                   });
@@ -2281,7 +2281,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       this.isLoading = true;
-      this.axios.get('http://contratos.local/api/properties').then(function (response) {
+      this.axios.get('/api/properties').then(function (response) {
         _this3.properties = response.data;
       })["catch"](function (error) {
         return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
@@ -2298,7 +2298,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this4.axios["delete"]("http://contratos.local/api/property/delete/".concat(id)).then(function (response) {
+                return _this4.axios["delete"]("/api/property/delete/".concat(id)).then(function (response) {
                   Vue.swal('Sucesso!', 'Registro excluído com sucesso!', 'success').then(_this4.getProperties());
                 })["catch"](function (error) {
                   return Vue.swal('Ooops!', 'Não foi possível finalizar a operação, tente novamente.', 'error');
@@ -2426,7 +2426,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.axios.get('http://contratos.local/api/properties-status').then(function (response) {
+    this.axios.get('/api/properties-status').then(function (response) {
       _this.properties = response.data;
     });
   },
@@ -2442,7 +2442,7 @@ __webpack_require__.r(__webpack_exports__);
       var withoutMask = this.document.replace(/[_\-./]/g, "");
       this.contract.document = withoutMask;
       this.isLoading = true;
-      this.axios.post('http://contratos.local/api/contract/store', this.contract).then(function (response) {
+      this.axios.post('/api/contract/store', this.contract).then(function (response) {
         Vue.swal('Sucesso!', response.data, 'success').then(function () {
           location.href = '/contract';
         });
@@ -2564,7 +2564,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isLoading = true;
-      this.axios.post('http://contratos.local/api/property/store', this.property).then(function (response) {
+      this.axios.post('/api/property/store', this.property).then(function (response) {
         Vue.swal('Sucesso!', response.data, 'success').then(location.href = '/property');
       })["catch"](function (error) {
         if (error.response.data.errors) {
@@ -2684,7 +2684,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _this.axios.get("http://contratos.local/api/contract/edit/".concat(_this.$route.params.id)).then(function (response) {
+              return _this.axios.get("/api/contract/edit/".concat(_this.$route.params.id)).then(function (response) {
                 return response.data;
               });
 
@@ -2714,7 +2714,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var withoutMask = this.document.replace(/[_\-./]/g, "");
       this.contract.document = withoutMask;
       this.isLoading = true;
-      this.axios.put("http://contratos.local/api/contract/update/".concat(this.$route.params.id), this.contract).then(function (response) {
+      this.axios.put("/api/contract/update/".concat(this.$route.params.id), this.contract).then(function (response) {
         if (response.errors) {
           this.errors = response.errors;
         } else {
@@ -2833,7 +2833,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.axios.get("http://contratos.local/api/property/edit/".concat(this.$route.params.id)).then(function (response) {
+    this.axios.get("/api/property/edit/".concat(this.$route.params.id)).then(function (response) {
       _this.property = response.data;
     });
   },
@@ -2847,7 +2847,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.isLoading = true;
-      this.axios.put("http://contratos.local/api/property/update/".concat(this.$route.params.id), this.property).then(function (response) {
+      this.axios.put("/api/property/update/".concat(this.$route.params.id), this.property).then(function (response) {
         Vue.swal('Sucesso!', response.data, 'success').then(function () {
           location.href = '/property';
         });

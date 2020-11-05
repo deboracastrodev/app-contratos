@@ -77,7 +77,7 @@
         },
         async created() {
             var data = await this.axios
-                .get(`http://contratos.local/api/contract/edit/${this.$route.params.id}`)
+                .get(`/api/contract/edit/${this.$route.params.id}`)
                 .then(response => response.data)
 
             this.contract = data.contract
@@ -95,7 +95,7 @@
                 this.isLoading = true
                 
                 this.axios
-                    .put(`http://contratos.local/api/contract/update/${this.$route.params.id}`, this.contract)
+                    .put(`/api/contract/update/${this.$route.params.id}`, this.contract)
                     .then(function (response) {
                         if (response.errors){
                             this.errors = response.errors

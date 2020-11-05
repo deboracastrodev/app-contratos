@@ -90,7 +90,7 @@
             addProperty() {
                 this.isLoading = true
                 this.axios
-                    .post('http://contratos.local/api/property/store', this.property)
+                    .post('/api/property/store', this.property)
                     .then(function (response) {
                         Vue.swal('Sucesso!',response.data, 'success').then(
                             location.href = '/property'
