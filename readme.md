@@ -21,8 +21,3 @@
  ##### Testes
 - Unitários
 - Integração
-
- ##### Testes
-- Unitários
-- Integração
-
